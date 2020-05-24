@@ -11,16 +11,19 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-
   conceptnet:
+    container_name: conceptnet
     image: bwulff/conceptnet-runtime
     entrypoint: /run_conceptnet_${CONCEPTNET_ENTRYPOINT}.sh
+    environment:
+      - CONCEPTNET_DB_HOSTNAME=db
+      - CONCEPTNET_DB_PORT=5432
+      - CONCEPTNET_DB_NAME=conceptnet
+      - CONCEPTNET_DB_USER=conceptnet
+      - CONCEPTNET_DB_PASSWORD=conceptnet
     volumes:
       - ./conceptnet-data:/opt/conceptnet5/data
+    ports:
+      - 8080:8084
 
 
